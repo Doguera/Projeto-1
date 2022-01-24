@@ -2,6 +2,116 @@
 
 #include <stdio.h>
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+//ESTRUTURAS
+void cabecalho(p2, x, aux, linha_coluna);
+void limiarizacao(p2, limiar, linha_coluna);
+void negativo(p2, neg, linha_coluna);
+void histograma(p2, hist, linha_coluna);
+///////////////////////////////////////////////////////////////////////////////////////////////
+//FUNCOES
+
+int main(void)
+{
+    int reprocessamento, escolha_operacoes;
+    int *linha_coluna;
+
+    linha_coluna = malloc(2 * sizeof(int));
+
+    FILE *p2;
+
+    do
+    {
+
+        p2 = fopen("exemplo.pgm", "rt");
+
+        if (p2 == NULL)
+        {
+            printf("Erro ao abrir");
+            return 0;
+        }
+
+        do
+        {
+            printf("Escolha qual operacao deseja resolver: \n(1) Limiarizacao\n(2) Negativo\n(3) Histograma\n");
+            scanf("%d", &escolha_operacoes);
+
+        } while (escolha_operacoes == 1 && escolha_operacoes == 2 && escolha_operacoes == 3);
+
+        switch (escolha_operacoes)
+        {
+        case 1:
+        {
+            FILE *limiar;
+
+            limiar = fopen("limiarizacao.pgm", "wt");
+
+            if (limiar == NULL)
+            {
+                printf("Erro ao abrir");
+                return 0;
+            }
+            limiarizacao(p2, limiar, linha_coluna);
+
+            fclose(p2);
+            fclose(limiar);
+
+            break;
+        }
+        case 2:
+        {
+            FILE *neg;
+
+            neg = fopen("negativo.pgm", "wt");
+
+            if (neg == NULL)
+            {
+                printf("Erro ao abrir");
+                return 0;
+            }
+
+            negativo(p2, neg, linha_coluna);
+
+            fclose(p2);
+            fclose(neg);
+
+            break;
+        }
+        case 3:
+        {
+            FILE *hist;
+
+            hist = fopen("histograma.txt", "wt");
+
+            if (hist == NULL)
+            {
+                printf("Erro ao abrir");
+                return 0;
+            }
+
+            histograma(p2, hist, linha_coluna);
+
+            fclose(p2);
+            fclose(hist);
+
+            break;
+        }
+        }
+
+        do
+        {
+            printf("Deseja resolver novamente? Sim = 1 e Nao = 0\n");
+            scanf("%d", &reprocessamento);
+        } while (reprocessamento == 1 && reprocessamento == 0);
+
+        if (reprocessamento == 0)
+        {
+            break;
+        }
+
+    } while (reprocessamento == 1);
+}
+
 void cabecalho(FILE *p2, FILE *x, int aux, int *linha_coluna)
 {
     char line[10];
@@ -104,105 +214,4 @@ void histograma(FILE *p2, FILE *hist, int *linha_coluna)
     }
 
     printf("A operacao foi concluida com exito\n");
-}
-
-int main(void)
-{
-    int reprocessamento, escolha_operacoes;
-    int *linha_coluna;
-
-    linha_coluna = malloc(2 * sizeof(int));
-
-    FILE *p2;
-
-    do
-    {
-
-        p2 = fopen("exemplo.pgm", "rt");
-
-        if (p2 == NULL)
-        {
-            printf("Erro ao abrir");
-            return 0;
-        }
-
-        do
-        {
-            printf("Escolha qual operacao deseja resolver: \n(1) Limiarizacao\n(2) Negativo\n(3) Histograma\n");
-            scanf("%d", &escolha_operacoes);
-
-        } while (escolha_operacoes == 1 && escolha_operacoes == 2 && escolha_operacoes == 3);
-
-        switch (escolha_operacoes)
-        {
-        case 1:
-        {
-            FILE *limiar;
-
-            limiar = fopen("limiarizacao.pgm", "wt");
-
-            if (limiar == NULL)
-            {
-                printf("Erro ao abrir");
-                return 0;
-            }
-            limiarizacao(p2, limiar, linha_coluna);
-
-            fclose(p2);
-            fclose(limiar);
-
-            break;
-        }
-        case 2:
-        {
-            FILE *neg;
-
-            neg = fopen("negativo.pgm", "wt");
-
-            if (neg == NULL)
-            {
-                printf("Erro ao abrir");
-                return 0;
-            }
-
-            negativo(p2, neg, linha_coluna);
-
-            fclose(p2);
-            fclose(neg);
-
-            break;
-        }
-        case 3:
-        {
-            FILE *hist;
-
-            hist = fopen("histograma.txt", "wt");
-
-            if (hist == NULL)
-            {
-                printf("Erro ao abrir");
-                return 0;
-            }
-
-            histograma(p2, hist, linha_coluna);
-
-            fclose(p2);
-            fclose(hist);
-
-            break;
-        }
-        }
-
-        do
-        {
-            printf("Deseja resolver novamente? Sim = 1 e Nao = 0\n");
-            scanf("%d", &reprocessamento);
-        } while (reprocessamento == 1 && reprocessamento == 0);
-
-        if (reprocessamento == 0)
-        {
-            break;
-        }
-
-    } while (reprocessamento == 1);
 }
