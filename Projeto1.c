@@ -51,9 +51,11 @@ void limiarizacao(FILE *p2, FILE *limiar, int *linha_coluna)
             fprintf(limiar, "%d\n", pixel);
         }
     }
+
+    printf("A operacao foi concluida com exito\n");
 }
 
-int negativo(FILE *p2, FILE *neg, int *linha_coluna)
+void negativo(FILE *p2, FILE *neg, int *linha_coluna)
 {
     int linha, coluna, i, j, pixel, aux = 0;
 
@@ -70,9 +72,11 @@ int negativo(FILE *p2, FILE *neg, int *linha_coluna)
             fprintf(neg, "%d\n", pixel);
         }
     }
+
+    printf("A operacao foi concluida com exito\n");
 }
 
-int histograma(FILE *p2, FILE *hist, int *linha_coluna)
+void histograma(FILE *p2, FILE *hist, int *linha_coluna)
 {
     int linha, coluna, i, j, pixel, aux = 1;
     int histo[256];
@@ -98,6 +102,8 @@ int histograma(FILE *p2, FILE *hist, int *linha_coluna)
     {
         fprintf(hist, "Tonalidade %d = %d\n", i, histo[i]);
     }
+
+    printf("A operacao foi concluida com exito\n");
 }
 
 int main(void)
@@ -109,16 +115,16 @@ int main(void)
 
     FILE *p2;
 
-    p2 = fopen("exemplo.pgm", "rt");
-
-    if (p2 == NULL)
-    {
-        printf("Erro ao abrir");
-        return 0;
-    }
-
     do
     {
+
+        p2 = fopen("exemplo.pgm", "rt");
+
+        if (p2 == NULL)
+        {
+            printf("Erro ao abrir");
+            return 0;
+        }
 
         do
         {
@@ -140,8 +146,10 @@ int main(void)
                 printf("Erro ao abrir");
                 return 0;
             }
-
             limiarizacao(p2, limiar, linha_coluna);
+
+            fclose(p2);
+            fclose(limiar);
 
             break;
         }
@@ -159,6 +167,9 @@ int main(void)
 
             negativo(p2, neg, linha_coluna);
 
+            fclose(p2);
+            fclose(neg);
+
             break;
         }
         case 3:
@@ -174,6 +185,10 @@ int main(void)
             }
 
             histograma(p2, hist, linha_coluna);
+
+            fclose(p2);
+            fclose(hist);
+
             break;
         }
         }
